@@ -5,11 +5,12 @@
  */
 package fr.mc.app.tool;
 
+import com.google.common.io.Files;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -23,61 +24,43 @@ import org.json.simple.parser.ParseException;
  */
 public class EnvironmentParser {
 
-    private File file;
-    private String filepath;
-    private List<Environment> environments = null;
+    private String filepath = "environments.json";
+    private ArrayList<Environment> environments = null;
 
-    public List<Environment> getEnvironments() {
+    public ArrayList<Environment> getEnvironments() {
         return environments;
     }
 
     public EnvironmentParser() {
         JSONParser jsonParser = new JSONParser();
-        //file = new File("environments.json");
-        file = new File("resources/json/environments.json");
-        filepath = file.getAbsolutePath();
-        
+
         try {
-            JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(filepath));
-            for (Object object : jsonArray) {
-                JSONObject jsonObject = (JSONObject) object;
+            File file = new File(filepath);
 
-                Environment environment = new Environment();
-                environment.setClient_name((String) jsonObject.get("client_name"));
-                environment.setResponse_type((String) jsonObject.get("response_type"));
-                environment.setClient_id((String) jsonObject.get("client_id"));
-                environment.setClient_secret((String) jsonObject.get("client_secret"));
-                environment.setRedirect_uri((String) jsonObject.get("redirect_uri"));
-                environment.setDisplay((String) jsonObject.get("display"));
-                environment.setScope((String) jsonObject.get("scope"));
+            if (file.exists()) {
+                String fileContent = Files.toString(file, Charset.defaultCharset());
+                JSONObject fileContentAsJSONObject = (JSONObject) jsonParser.parse(fileContent);
+                JSONArray environmentsAsObject = (JSONArray) fileContentAsJSONObject.get("environments");
+                ArrayList<Environment> newEnvironmentsCollection = new ArrayList<>();
 
-                environments.add(environment);
+                for (Object environmentAsObject : environmentsAsObject) {
+                    JSONObject environmentAsJSONObject = (JSONObject) environmentAsObject;
+                    Environment environment = new Environment();
+                    environment.setClient_name((String) environmentAsJSONObject.get("client_name"));
+                    environment.setResponse_type((String) environmentAsJSONObject.get("response_type"));
+                    environment.setClient_id((String) environmentAsJSONObject.get("client_id"));
+                    environment.setClient_secret((String) environmentAsJSONObject.get("client_secret"));
+                    environment.setRedirect_uri((String) environmentAsJSONObject.get("redirect_uri"));
+                    environment.setDisplay((String) environmentAsJSONObject.get("display"));
+                    environment.setScope((String) environmentAsJSONObject.get("scope"));
+                    newEnvironmentsCollection.add(environment);
+                }
+                environments = newEnvironmentsCollection;
             }
         } catch (FileNotFoundException ex) {
-            File dir1 = new File (".");
-            File dir2 = new File ("..");
-            
-            try {
-                System.out.println ("### Current dir : " + dir1.getCanonicalPath());
-                System.out.println ("### Parent  dir : " + dir2.getCanonicalPath());
-            } catch (IOException ex1) {
-                Logger.getLogger(EnvironmentParser.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-
             Logger.getLogger(EnvironmentParser.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException | ParseException ex) {
             Logger.getLogger(EnvironmentParser.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public String toOptions() {
-        String options = "";
-
-        for (int i = 0; i < environments.size(); i++) {
-            Environment environment = environments.get(i);
-            System.out.println("### env : " + environment.getClient_name());
-            options = options + "<option value=\"" + i + "\">" + environment.getClient_name() + "</option>";
-        }
-        return options;
     }
 }
