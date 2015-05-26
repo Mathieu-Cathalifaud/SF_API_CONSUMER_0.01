@@ -23,14 +23,17 @@
                     <div id="environment-selection">
                         <h2 class="font-01"><i class="fa fa-cloud color-primary"></i> SF-API-CONSUMER <small>v0.01</small></h2>
                         <br/>
-                        <select class="form-control input-lg disabled" title="Pick an environment">
-                        </select>
-                        <hr/>
-                        <p class="text-right">
-                            <button class="btn btn-default" type="button"><i class="fa fa-envelope-square"></i> Make a request</button>
-                            <button class="btn btn-default" type="button"><i class="fa fa-plus-circle"></i> Add environment</button>
-                            <button class="btn btn-primary" type="button"><i class="fa fa-chevron-circle-right"></i> Connection</button>
-                        </p>
+                        <h:form>
+                            <select name="client_name" class="form-control input-lg disabled" title="Pick an environment">
+                                <h:outputText escape="false" value="#{environmentManagerBean.environmentsAsHTMLOptions}"/>
+                            </select>
+                            <hr/>
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-default" type="button">Make a request</button>
+                                <button class="btn btn-default" type="button">Add environment</button>
+                                <h:commandButton type="submit" action="#{sessionInitializerBean.submit}" value="Connection" class="btn btn-primary"/>
+                            </div>
+                        </h:form>
                     </div>
                 </div>
             </div>

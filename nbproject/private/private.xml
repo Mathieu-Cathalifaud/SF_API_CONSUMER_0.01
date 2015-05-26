@@ -4,8 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/Mathieu/NetBeansProjects/SF_API_CONSUMER_0.01/web/index.xhtml</file>
-            <file>file:/Users/Mathieu/NetBeansProjects/SF_API_CONSUMER_0.01/web/WEB-INF/web.xml</file>
-            <file>file:/Users/Mathieu/NetBeansProjects/SF_API_CONSUMER_0.01/src/java/fr/mc/app/tool/EnvironmentParser.java</file>
+            <file>file:/Users/Mathieu/NetBeansProjects/SF_API_CONSUMER_0.01/src/java/fr/mc/app/bean/SessionInitializerBean.java</file>
             <file>file:/Users/Mathieu/NetBeansProjects/SF_API_CONSUMER_0.01/src/java/fr/mc/app/bean/EnvironmentManagerBean.java</file>
         </group>
     </open-files>

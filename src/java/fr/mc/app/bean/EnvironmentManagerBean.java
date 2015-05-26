@@ -8,8 +8,6 @@ package fr.mc.app.bean;
 import fr.mc.app.tool.Environment;
 import fr.mc.app.tool.EnvironmentParser;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.view.ViewScoped;
 
@@ -29,7 +27,17 @@ public class EnvironmentManagerBean {
     }
 
     public ArrayList<Environment> getEnvironments() {
-        System.out.println("### environments : " + environments);
         return environments;
+    }
+
+    public String getEnvironmentsAsHTMLOptions() {
+        String html = "";
+
+        for (Environment environment : environments) {
+            String value = environment.getClient_name().replace(" ", "_");
+            String text = environment.getClient_name();
+            html = html.concat("<option value=\"" + value + "\">" + text + "</option>");
+        }
+        return html;
     }
 }
