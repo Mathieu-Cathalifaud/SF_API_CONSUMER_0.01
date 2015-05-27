@@ -34,9 +34,12 @@ public class EnvironmentParser {
     public EnvironmentParser() {
         JSONParser jsonParser = new JSONParser();
 
+        //String workingDir = System.getProperty("user.dir");
+	//System.out.println("Current working directory : " + workingDir);
+        
         try {
             File file = new File(filepath);
-
+            
             if (file.exists()) {
                 String fileContent = Files.toString(file, Charset.defaultCharset());
                 JSONObject fileContentAsJSONObject = (JSONObject) jsonParser.parse(fileContent);
